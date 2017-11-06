@@ -1,0 +1,97 @@
+<div class="container-fluid">
+
+  <div class="col-sm-12" id="expense_selector">
+    <p><b>Previous Expances,</b></p>
+    <div class="form-group">
+      <label class="control-label">From : </label>
+      <input type="date" class="form-control">
+    </div>
+    <div class="form-group">
+      <label class="control-label">To : </label>
+      <input type="date" class="form-control">
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Date </th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>2017-12-34</td>
+        <td>Paid the rental of the shop</td>
+        <td>Rs. 12300</td>
+        <td>Payment - cache</td>
+        <td class="glyphicon glyphicon-remove clear_btn"></td>
+      </tr>
+      <tr>
+        <td>2017-12-34</td>
+        <td>Paid the rental of the shop</td>
+        <td>Rs. 12300</td>
+        <td>Payment - cache</td>
+        <td class="glyphicon glyphicon-remove clear_btn"></td>
+      </tr>
+      <tr>
+        <td>2017-12-34</td>
+        <td>Paid the rental of the shop</td>
+        <td>Rs. 12300</td>
+        <td>Payment - cache</td>
+        <td class="glyphicon glyphicon-remove clear_btn"></td>
+      </tr>
+      <tr>
+        <td>2017-12-34</td>
+        <td>Paid the rental of the shop</td>
+        <td>Rs. 12300</td>
+        <td>Payment - cache</td>
+        <td class="glyphicon glyphicon-remove clear_btn"></td>
+      </tr>
+      </tbody>
+    </table>
+    <hr>
+  </div>
+
+  <div class="col-sm-12" id="new_button">
+    <button class="btn btn-success btn-lg" (click)="showNew()" *ngIf="!editable">Add Expense</button>
+  </div>
+
+  <div class="col-sm-8" id="expense_detail" *ngIf="editable">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label col-sm-3">Date :</label>
+        <div class="col-sm-5">
+          <input type="date" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-3">Description :</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" placeholder="enter description">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-3">Amount :</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" placeholder="enter amount">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-3">Category :</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" placeholder="select category">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="button" class="btn btn-success" (click)="saveDetails()">Save</button>
+          <button type="button" class="btn btn-warning" (click)="showNew()">Discard</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>

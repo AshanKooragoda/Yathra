@@ -1,0 +1,21 @@
+.fa-plus-circle {
+  padding-left: 10px;
+}
+.fa-plus-circle:hover {
+  cursor: pointer;
+}
+
+.col-sm-2 span {
+  overflow: hidden;
+}
+
+#new_payment {
+  border: solid lightgray 1px;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 0;
+}
+.form-group {
+  padding: 0 20px;
+  text-align: center;
+}

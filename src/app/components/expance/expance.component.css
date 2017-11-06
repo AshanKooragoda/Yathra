@@ -1,0 +1,32 @@
+
+table {
+  width: 85%;
+  border: solid darkcyan;
+  border-collapse: separate;
+  border-width: 3px 0;
+  border-radius: 3px;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+#expense_detail {
+  padding: 20px;
+  margin: 10px;
+  border: solid lightgray 1px;
+  border-radius: 3px;
+}
+
+#expense_selector .form-control {
+  display: inline-block;
+  width: auto;
+}
+#expense_selector .form-group {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+
+
+

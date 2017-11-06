@@ -1,0 +1,8 @@
+.form-control {
+  display: inline-block;
+  width: auto;
+}
+#date_select .form-group {
+  display: inline-block;
+  padding-right: 30px;
+}
