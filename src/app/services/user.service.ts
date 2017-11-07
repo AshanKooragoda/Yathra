@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {User} from '../models/user';
-import {Http} from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import {Router} from '@angular/router';
 
 @Injectable()
 export class UserService {
 
   private currentUser: User;
+  private http: Http;
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private router: Router, @Inject(Http) http) {
     this.currentUser = new User(null, null, null, false);
+    this.http = http;
   }
 
   getCurrentUser() {
@@ -19,20 +21,9 @@ export class UserService {
     this.currentUser = user;
   }
 
-  queryUser(username, password) {
-    // this.http.post('http://localhost/back_End/controllers/user.php/', {'username': username, 'password': password})
-    //   .map(res => res.json())
-    //   .subscribe(
-    //     function(users) {
-    //       this.currentUser = users[0];
-    //       this.currentUser.isUserLoggedIn = true;
-    //       action(true, null);
-    //     },
-    //     function(error) {
-    //       action(false, error);
-    //     });
-    return this.http.post('http://localhost/back_End/controllers/user.php/',
-      {'type': 'get_user', 'username': username, 'password': password})
+  queryUser(data) {
+    return this.http.post('http://localhost:3000/get_user', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
       .map(res => res.json());
   }
 

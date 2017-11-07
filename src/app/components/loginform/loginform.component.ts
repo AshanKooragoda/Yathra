@@ -17,36 +17,19 @@ export class LoginformComponent implements OnInit {
   }
 
   onSubmit(username, password) {
-    // implement the user type part of the page
-    // if (this.user.logIn(username, password, )) {
-    //   this.router.navigate(['invoice']);
-    // }else {
-    //   // cannot login
-    // }
-    // this.user.logIn(username, password, function(loggedIn, error){
-    //   if (loggedIn) {
-    //     this.router.navigate(['invoice']);
-    //   }else {
-    //     console.log(error);
-    //     // this is for implementation details . afterwards remove error variable and use proper message to the user
-    //   }
-    // });
-    this.user.queryUser(username, password).subscribe(
-      users => {
-        const user = this.userService.getCurrentUser();
-        user.setUserDetail(users[0].username, users[0].password, users[0].name, true);
-        console.log(this.userService.getCurrentUser());
-        this.router.navigate(['invoice']);
-      },
-      error => {
+    const data = {
+      username: username,
+      password: password
+    };
+    this.userService.queryUser(data)
+      .subscribe(res => {
+        console.log(res);
+      }, error => {
         console.log(error);
-        this.message = 'Try Again !';
-      }
-    );
+      });
   }
 
   ngOnInit() {
-
   }
 
 }
