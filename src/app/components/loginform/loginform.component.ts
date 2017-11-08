@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-loginform',
@@ -23,7 +24,19 @@ export class LoginformComponent implements OnInit {
     };
     this.userService.queryUser(data)
       .subscribe(res => {
-        console.log(res);
+        if (res.length === 0) {
+          this.message = 'Try Again...';
+        }else {
+          const user  = new User();
+          let type = 'teacher';
+          if (res[0].t_id == null) {
+            type = 'admin';
+          }
+          user.setUserDetail(res[0].username, res[0].password, res[0].name, type, true);
+          this.userService.setCurrentUser(user);
+          console.log(this.userService.getCurrentUser());       // just for implementation details
+          this.router.navigate(['invoice']);
+        }
       }, error => {
         console.log(error);
       });

@@ -3,19 +3,16 @@ export class User {
   username: string;
   password: string;
   name: string;
+  type: string;
 
-  constructor(username, password, name, loggedIn) {
-    this.username = username;
-    this.password = password;
-    this.name = name;
-    this.isUserLoggedIn = loggedIn;
-  }
+  constructor() {}
 
-  setUserDetail(username, password, name, loggedIn) {
+  setUserDetail(username, password, name, type, loggedIn) {
     this.isUserLoggedIn = loggedIn;
     this.username = username;
     this.name = name;
     this.password = password;
+    this.type = type;
   }
 
   // getUsername() {

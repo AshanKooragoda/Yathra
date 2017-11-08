@@ -33,7 +33,7 @@ export class UserdetailComponent implements OnInit {
     console.log(this.route.snapshot.params['id']);
     if (this.route.snapshot.params['id'] === 'new_user') {
       this.newuser = true;
-      this.userDetail = new User(null, null, null, false);
+      this.userDetail = new User();
     }else {
       this.newuser = false;
       // set this.teacher's value accordingly
