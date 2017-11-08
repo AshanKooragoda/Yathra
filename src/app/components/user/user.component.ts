@@ -15,12 +15,13 @@ export class UserComponent implements OnInit {
   teacher: boolean;       // to load the userlist. represent the values of checkboxes
   admin: boolean;
   userService: UserService;
-  selectedUser: User;     // to keep data of the
+  selectedUser: User;     // to keep data of the selected user
 
   constructor(private router: Router, private user: UserService) {
     this.teacher = true;
     this.admin = true;
     this.userService = user;
+    this.selectedUser = new User();
   }
 
   ngOnInit() {
@@ -60,11 +61,9 @@ export class UserComponent implements OnInit {
     $('#' + username + '_user').addClass('active');
     this.user.queryUserDetail({username: username}).subscribe(
       users => {
-        console.log(users[0].username);
-        for (let u of users) {
-          console.log(u);
-        }
         this.selectedUser = users[0];
+        console.log(this.selectedUser);
+        this.selectedUser.setUserDetail(users[0].username, null, users[0].name, users[0].type, false);
       },
       error => {
         console.log(error);
