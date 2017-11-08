@@ -1,0 +1,29 @@
+
+table {
+  width: 85%;
+  border: solid darkcyan;
+  border-collapse: separate;
+  border-width: 3px 0;
+  border-radius: 3px;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+.form-control {
+  display: inline-block;
+  width: auto;
+}
+.form-group {
+  display: inline-block;
+  padding-right: 30px;
+}
+
+.clear_btn {
+  color: green;
+  display: none;
+}
+
+
+

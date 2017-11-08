@@ -1,0 +1,23 @@
+.sup_detail {
+  margin: 5px;
+}
+
+#table_title {
+  padding: 10px 20px;
+}
+
+table {
+  width: 85%;
+  border: solid darkcyan;
+  border-collapse: separate;
+  border-width: 3px 0;
+  border-radius: 3px;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+#detail_text label {
+  font-weight: normal;
+}

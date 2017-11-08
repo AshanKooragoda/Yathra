@@ -1,0 +1,36 @@
+#main_container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0;
+  min-height: 100%;
+  height: auto;
+}
+
+:host {
+  background-color: red;
+}
+
+.nav-tabs {
+  padding: 0 20px;
+  border-bottom: solid gray 1px;
+}
+
+ul li {
+  padding: 0;
+}
+ul .active {
+  border: solid gray 1px;
+  border-bottom: solid white 1px;
+}
+.active a {
+  border-color: white;
+  border-radius: 0;
+}
+a {
+  font-size: large;
+  color: darkgreen;
+}
+a:hover {
+  cursor: pointer;
+}
+

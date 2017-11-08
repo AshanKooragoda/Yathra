@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <p><b>Previous Invoices,</b></p>
+
+  <div class="form-group">
+    <label class="control-label">From : </label>
+    <input type="date" class="form-control">
+  </div>
+  <div class="form-group">
+    <label class="control-label">To : </label>
+    <input type="date" class="form-control">
+  </div>
+  <div class="form-group">
+    <label class="control-label">Supplier : </label>
+    <input type="text" class="form-control">
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Invoice No</th>
+      <th>Supplier</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>I0023</td>
+      <td>Coca-Cola supplier</td>
+      <td>23-03-2017</td>
+      <td>Rs. 10000</td>
+      <td class="glyphicon glyphicon-remove clear_btn"></td>
+    </tr>
+    <tr>
+      <td>I0023</td>
+      <td>Lahiru Sampath - Galler</td>
+      <td>23-03-2017</td>
+      <td>Rs. 10000</td>
+      <td class="glyphicon glyphicon-remove clear_btn"></td>
+    </tr>
+    <tr>
+      <td>I0023</td>
+      <td>Punchi Amma</td>
+      <td>23-03-2017</td>
+      <td>Rs. 10000</td>
+      <td class="glyphicon glyphicon-remove clear_btn"></td>
+    </tr>
+    <tr>
+      <td>I0023</td>
+      <td>Chinthana Wimalasuriya - Stationary Sataion</td>
+      <td>23-03-2017</td>
+      <td>Rs. 10000</td>
+      <td class="glyphicon glyphicon-remove clear_btn"></td>
+    </tr>
+    </tbody>
+  </table>
+  <hr>
+
+  <div class="col-sm-2"  style="padding: 10px 0;">
+    <button class="btn btn-success btn-primary btn-lg" (click)="goToInvoice()"> New Invoice </button>
+  </div>
+  <div class="col-sm-8">
+    <p><b>Go to invoice,</b></p>
+    <div class="form-group">
+      <label class="control-label">Invoice No :</label>
+      <input type="text" class="form-control">
+      <button class="btn"> View </button>
+    </div>
+  </div>
+
+</div>
