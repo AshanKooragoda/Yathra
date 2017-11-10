@@ -54,6 +54,30 @@ app.get("/get_teachers", (req, res) => {   // get every user who are teachers
   });
 });
 
+app.post("/get_user_teacher", (req, res) => {   //  get specific user according to username and password
+  UserController.getUserTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/add_user_teacher", (req, res) => {   //  add new teacher as an user;
+  UserController.addUserTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/add_user", (req, res) => {   //  add an new user
+  UserController.addUser(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
 
 
 app.listen(3000, () => {

@@ -1,5 +1,6 @@
 export class Teacher {
   t_id: string;
+  name: string;
   username: string;
   contact: string;
   address: string;
@@ -15,8 +16,9 @@ export class Teacher {
   //   this.address = address;
   // }
 
-  setDetails(t_id, username, contact, address) {
+  setDetails(t_id, username, name, contact, address) {
     this.t_id = t_id;
+    this.name = name;
     this.username = username;
     this.contact = contact;
     this.address = address;

@@ -43,9 +43,24 @@ export class UserService {
       .map(res => res.json());
   }
 
-  // queryUsername(usernameInfo) {
-  //   return this.http.post('http://localhost/back_End/controllers/user.php/', usernameInfo)
-  //     .map(res => res.json());
-  // }
+  queryTeacher(data) {
+    return this.http.post('http://localhost:3000/get_user_teacher', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  addTeacherUser(data) {
+    console.log(data);
+    return this.http.post('http://localhost:3000/add_user_teacher', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  addUser(data) {
+    console.log(data);
+    return this.http.post('http://localhost:3000/add_user', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
 
 }

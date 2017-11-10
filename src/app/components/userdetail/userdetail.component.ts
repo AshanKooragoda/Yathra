@@ -26,16 +26,39 @@ export class UserdetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private user: UserService, private router: Router) {
     this.isTeacher = false;
+    this.userService = user;
+
+    this.userDetail = new User();
+
     console.log(this.route.snapshot.params['id']);
+
     if (this.route.snapshot.params['id'] === 'new_user') {
-      $('#teacher_check').hide();
+      this.message = 'Add new user';
       this.isNew = true;
-      this.userDetail = new User();
     }else {
+      this.message = 'My profile';
       this.isNew = false;
-      $('#teacher_check').hide();
-      if (user.getCurrentUser().type === 'Teacher') {
+
+      this.userDetail.setUserDetail(user.getCurrentUser().username,
+        user.getCurrentUser().password,
+        user.getCurrentUser().name,
+        user.getCurrentUser().type,
+        user.getCurrentUser().isUserLoggedIn);
+
+      if (user.getCurrentUser().type === 'teacher') {
         this.isTeacher = true;
+
+        user.queryTeacher({username: user.getCurrentUser().username}).subscribe(
+          teachers => {
+            console.log(teachers[0]);
+            this.teacherDetail = new Teacher();
+            this.teacherDetail.setDetails(teachers[0].t_id, teachers[0].username,
+              teachers[0].name, teachers[0].contact, teachers[0].address);
+          },
+          error => {
+            console.log(error);
+          }
+        );
       }
     }
   }
@@ -43,68 +66,106 @@ export class UserdetailComponent implements OnInit {
   ngOnInit() {
     $('.active').removeClass('active');
     $('#userTab').addClass('active');
+
+    if (!this.isNew) {
+      $('#teacher_check').hide();
+    }else {
+      $('#teacher_check').show();
+    }
   }
 
-  addTeacher() {
+  specifyTeacher() {
     this.isTeacher = !this.isTeacher;
     this.teacherDetail = new Teacher();
   }
 
+  sumbitDetails() {
+    const password = $('#password').val();
+    const conf_password = $('#conf_password').val();
+
+    if (this.userDetail.username !== '') {
+      if (this.validUsername(this.userDetail.username)) {
+        if (this.userDetail.name !== '') {
+          if (password !== '') {
+              if (password === conf_password) {
+
+              // details
+
+            }else {
+              this.message = 'Confimation password is incorrect';
+            }
+          }else {
+            this.message = 'Please provide a none empty password';
+          }
+        }else {
+          this.message = 'Please provide name !';
+        }
+      }
+    }else {
+      this.message = 'Please provide username !';
+    }
+  }
+
   addUser() {
+    const password = $('#password').val();
+    const conf_password = $('#conf_password').val();
 
+    if (this.userDetail.username !== '' && this.validUsername(this.userDetail.username)) {
+      if (this.userDetail.name !== '') {
+        if (password !== '') {
+          if (password === conf_password) {
 
-    // const password = $('#confirm_password').val();
-    // let usernameInfo = {};
-    // let queryInfo = {};
-    //
-    // if (this.userDetail.username !== '') {
-    //   if (this.userDetail.name !== '') {
-    //     if (this.userDetail.password === password) {
-    //       if ((password !== '') && (this.userDetail.password !== '')) {
-    //         if (this.isTeacher) {
-    //           queryInfo = {'type': '_', 'username': this.userDetail.username, 'name': this.userDetail.name,
-    //             'password': this.userDetail.password, 't_id': '_',
-    //             'contact': this.teacherDetail.contact, 'address': this.teacherDetail.address, 'subjects': this.myData};
-    //           if (this.newuser) {
-    //             usernameInfo = {'type': 'get_username', 'username': this.userDetail.username};
-    //             queryInfo['type'] = 'add_teacher';
-    //             queryInfo['t_id'] = 'new_id';
-    //           }else {
-    //             usernameInfo = {'type': 'get_username', 'username': this.userDetail.username,
-    //               'previous': this.user.getCurrentUser().username};
-    //             queryInfo['type'] = 'update_teacher';
-    //             queryInfo['t_id'] = this.teacherDetail.t_id;
-    //           }
-    //         }else {
-    //           queryInfo = {'type': '_', 'username': this.userDetail.username, 'name': this.userDetail.name,
-    //             'password': this.userDetail.password};
-    //           if (this.newuser) {
-    //             usernameInfo = {'type': 'get_username', 'username': this.userDetail.username};
-    //             queryInfo['type'] = 'add_admin';
-    //           }else {
-    //             usernameInfo = {'type': 'get_username', 'username': this.userDetail.username,
-    //               'previous': this.user.getCurrentUser().username};
-    //             queryInfo['type'] = 'update_admin';
-    //           }
-    //         }
-    //         // this.user.queryUsername(usernameInfo).subscribe(
-    //           // names => {
-    //           //   this. = users;
-    //           // },
-    //           // error => {
-    //           //   console.log(error);
-    //           // }
-    //       }else {
-    //         alert('password cannot be empty');
-    //       }
-    //     }else {
-    //       alert('confirm your password');
-    //     }
-    //   }else {
-    //     alert('provide name');
-    //   }
-    // }else {
-    //   alert('provide username');
-    // }
+            if (this.isTeacher) {
+              if (this.teacherDetail.contact && this.validContact(this.teacherDetail.contact)) {
+                this.userService.addTeacherUser({       // update the method to add subjects to the database
+                  username: this.userDetail.username,
+                  name: this.userDetail.name,
+                  password: password,
+                  contact: this.teacherDetail.contact,
+                  address: this.teacherDetail.address
+                }).subscribe(
+                  result => {
+                    console.log(result);
+                  }, error => {
+                    console.log(error);
+                  }
+                );
+              }else {
+                this.message = 'Please provide contact number';
+              }
+            }else {
+              this.userService.addUser({
+                username: this.userDetail.username,
+                name: this.userDetail.name,
+                password: password
+              }).subscribe(
+                result => {
+                  console.log(result);
+                }, error => {
+                  console.log(error);
+                }
+              );
+            }
+
+          }else {
+            this.message = 'Confimation password is incorrect';
+          }
+        }else {
+          this.message = 'Please provide a none empty password';
+        }
+      }else {
+        this.message = 'Please provide name !';
+      }
+    }else {
+      this.message = 'Please provide username !';
+    }
+  }
+
+  validContact(contact) {
+    return true;      // input contact number of the teacher input and validate it
+  }
+
+  validUsername(username) {
+    return true;      // input username and check if it's used before
   }
 }

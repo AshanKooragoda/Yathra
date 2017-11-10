@@ -1,14 +1,13 @@
 <div class="container-fluid">
 
   <div class="col-sm-9">
-    <p *ngIf="!this.isNew"><b>My profile</b></p>
-    <p *ngIf="this.isNew"><b>New user detail</b></p>
+    <p><b>{{message}}</b></p>
 
     <form class="form-horizontal">
       <div class="form-group">
         <label class="control-label col-sm-3" >Username : </label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" placeholder="username" name="username" [(ngModel)]="">
+          <input type="text" class="form-control" placeholder="username" name="username" [(ngModel)]="userDetail.username">
         </div>
       </div>
       <div class="form-group">
@@ -18,30 +17,34 @@
         </div>
       </div>
 
-      <p><b>Password,</b></p>
+      <p *ngIf="!isNew"><b>Change Password,</b></p>
+      <p *ngIf="isNew"><b>Password,</b></p>
 
-      <div class="form-group" *ngIf="!this.newuser">
+      <div class="form-group" *ngIf="!this.isNew">
         <label class="control-label col-sm-3">Current password : </label>
         <div class="col-sm-6">
-          <input type="password" class="form-control" placeholder="enter current password" name="cur_pass" >
+          <input type="password" class="form-control" placeholder="enter current password" name="cur_pass" id="cur_password">
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-3">New password : </label>
         <div class="col-sm-6">
-          <input type="password" class="form-control" placeholder="new password" [(ngModel)]="userDetail.password" name="password" >
+          <input type="password" class="form-control" placeholder="new password" name="password" id="password">
         </div>
       </div>
       <div class="form-group">
         <label class="control-label col-sm-3">Conform password : </label>
         <div class="col-sm-6">
-          <input type="password" class="form-control" placeholder="confirm password" id="confirm_password" name="con_pass" >
+          <input type="password" class="form-control" placeholder="confirm password" id="conf_password" name="con_pass" >
         </div>
       </div>
 
-      <p><label style="padding: 10px 15px 0 5px;">Register as a teacher</label><input type="checkbox" (change)="addTeacher()" id="teacher_check"></p>
+      <p id="teacher_check"><label style="padding: 10px 15px 0 5px;">Register as a teacher</label><input type="checkbox" (change)="specifyTeacher()"></p>
 
       <div *ngIf="(this.isTeacher)">
+
+        <p><b>Teacher details,</b></p>
+
         <div class="form-group">
           <label class="control-label col-sm-3">Contact : </label>
           <div class="col-sm-6">
@@ -66,7 +69,7 @@
       <hr>
       <div class="col-sm-9" style="text-align: right">
         <button class="btn btn-warning" style="margin: 10px;"> Cancel </button>
-        <button class="btn btn-success" style="margin: 10px;" (click)="addUser()"> Save </button>
+        <button class="btn btn-success" style="margin: 10px;" (click)="sumbitDetails()"> Save </button>
       </div>
     </form>
   </div>
