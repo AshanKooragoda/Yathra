@@ -4,6 +4,7 @@ import {UserService} from '../../services/user.service';
 import * as $ from 'jquery';
 import {User} from '../../models/user';
 import {Teacher} from '../../models/teacher';
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'app-userdetail',
@@ -14,8 +15,10 @@ export class UserdetailComponent implements OnInit {
   isNew: boolean;
   isTeacher: boolean;
 
-  userDetail: User;
-  teacherDetail: Teacher;
+  isChangePassword: boolean;   // useful in update user scenario. bind with change password checkbox
+  isValidUsername: boolean;    // check if the username is valid
+
+  t_id: string;     // assigned only if user is a teacher (isTeacher is true)
 
   userService: UserService;
 
@@ -28,32 +31,37 @@ export class UserdetailComponent implements OnInit {
     this.isTeacher = false;
     this.userService = user;
 
-    this.userDetail = new User();
+    this.isChangePassword = false;
 
-    console.log(this.route.snapshot.params['id']);
+    // console.log(this.route.snapshot.params['id']);
+  }
+
+  ngOnInit() {
+    $('.active').removeClass('active');
+    $('#userTab').addClass('active');
 
     if (this.route.snapshot.params['id'] === 'new_user') {
       this.message = 'Add new user';
       this.isNew = true;
+      this.isChangePassword = true;
+      $('#teacher_check').show();
+
     }else {
       this.message = 'My profile';
       this.isNew = false;
+      $('#teacher_check').hide();
 
-      this.userDetail.setUserDetail(user.getCurrentUser().username,
-        user.getCurrentUser().password,
-        user.getCurrentUser().name,
-        user.getCurrentUser().type,
-        user.getCurrentUser().isUserLoggedIn);
+      $('#username').val(this.userService.getCurrentUser().username);     // set details of current user to the input fields
+      $('#name').val(this.userService.getCurrentUser().name);
 
-      if (user.getCurrentUser().type === 'teacher') {
-        this.isTeacher = true;
+      if (this.userService.getCurrentUser().type === 'teacher') {         // if current user is a teacher,
+        this.isTeacher = true;                                // load teacher specific details to input fields
 
-        user.queryTeacher({username: user.getCurrentUser().username}).subscribe(
+        this.userService.queryTeacher({username: this.userService.getCurrentUser().username}).subscribe(
           teachers => {
-            console.log(teachers[0]);
-            this.teacherDetail = new Teacher();
-            this.teacherDetail.setDetails(teachers[0].t_id, teachers[0].username,
-              teachers[0].name, teachers[0].contact, teachers[0].address);
+            this.t_id = teachers[0].t_id;
+            $('#contact').val(teachers[0].contact);
+            $('#address').val(teachers[0].address);
           },
           error => {
             console.log(error);
@@ -63,66 +71,126 @@ export class UserdetailComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    $('.active').removeClass('active');
-    $('#userTab').addClass('active');
-
-    if (!this.isNew) {
-      $('#teacher_check').hide();
-    }else {
-      $('#teacher_check').show();
-    }
-  }
-
   specifyTeacher() {
     this.isTeacher = !this.isTeacher;
-    this.teacherDetail = new Teacher();
   }
 
-  sumbitDetails() {
+  updatePassword() {
+    this.isChangePassword = !this.isChangePassword;
+  }
+
+  submitDetails() {
+    const username = $('#username').val();
+    const name = $('#name').val();
     const password = $('#password').val();
     const conf_password = $('#conf_password').val();
 
-    if (this.userDetail.username !== '') {
-      if (this.validUsername(this.userDetail.username)) {
-        if (this.userDetail.name !== '') {
-          if (password !== '') {
-              if (password === conf_password) {
-
-              // details
-
+    if (username !== '') {
+      if (this.isValidUsername) {
+        if (name !== '') {
+          if (!this.isChangePassword || (password !== '')) {
+            if (!this.isChangePassword || (conf_password !== '')) {
+              if (!this.isChangePassword || (password === conf_password)) {
+                if (this.isNew) {
+                  this.addUser();
+                }else {
+                  this.updateUser();
+                }
+              }else {
+                this.missingIngredient('conf_password');
+              }
             }else {
-              this.message = 'Confimation password is incorrect';
+              this.missingIngredient('conf_password');
             }
           }else {
-            this.message = 'Please provide a none empty password';
+            this.missingIngredient('password');
           }
         }else {
-          this.message = 'Please provide name !';
+          this.missingIngredient('name');
         }
+      } else {
+        this.wrongIngredient('username', 'Username already in use!');   // not missing not valid
       }
     }else {
-      this.message = 'Please provide username !';
+      this.missingIngredient('username');
     }
   }
 
   addUser() {
+    const username = $('#username').val();
+    const name = $('#name').val();
     const password = $('#password').val();
-    const conf_password = $('#conf_password').val();
 
-    if (this.userDetail.username !== '' && this.validUsername(this.userDetail.username)) {
-      if (this.userDetail.name !== '') {
-        if (password !== '') {
-          if (password === conf_password) {
+    if (this.isTeacher) {             // still without adding subjects to the teacher
+      const contact = $('#contact').val();
+      const address = $('#address').val();
+      console.log('adding new teacher');
 
-            if (this.isTeacher) {
-              if (this.teacherDetail.contact && this.validContact(this.teacherDetail.contact)) {
-                this.userService.addTeacherUser({       // update the method to add subjects to the database
-                  username: this.userDetail.username,
-                  name: this.userDetail.name,
+      if (contact !== '') {
+        if (this.validContact(contact)) {
+          console.log('contact is valid');
+          this.userService.addTeacherUser({
+            username: username,
+            name: name,
+            password: password,
+            contact: contact,
+            address: address
+          }).subscribe(
+            result => {
+              console.log(result);
+            }, error => {
+              console.log(error);
+            }
+          );
+        }else {
+          this.wrongIngredient('contact', 'Invalid contact provided!');
+        }
+      }else {
+        this.missingIngredient('contact');
+      }
+    }else {                 // add new user
+      this.userService.addUser({
+        username: username,
+        name: name,
+        password: password
+      }).subscribe(
+        result => {
+          console.log(result);
+        }, error => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  updateUser() {
+    const username = $('#username').val();
+    const name = $('#name').val();
+    const user = this.userService.getCurrentUser();
+
+    if (this.isTeacher) {
+      const contact = $('#contact').val();
+      const address = $('#address').val();
+
+      if (contact !== '') {
+        if (this.validContact(contact)) {
+
+          if (this.isChangePassword) {
+            const password = $('#password').val();
+            const cur_password = $('#cur_password').val();
+
+            if (cur_password !== '') {
+              if (cur_password === user.password) {
+
+                this.userService.updateTeacherPassword({      // update teacher details with passwords (still without subjects)
+                  cur_username: user.username,
+                  cur_password: user.password,
+                  cur_t_id: this.t_id,
+                  username: username,
+                  name: name,
                   password: password,
-                  contact: this.teacherDetail.contact,
-                  address: this.teacherDetail.address
+                  contact: contact,
+                  address: address
                 }).subscribe(
                   result => {
                     console.log(result);
@@ -131,41 +199,127 @@ export class UserdetailComponent implements OnInit {
                   }
                 );
               }else {
-                this.message = 'Please provide contact number';
+                this.wrongIngredient('cur_password', 'Incorrect password provided!');
               }
             }else {
-              this.userService.addUser({
-                username: this.userDetail.username,
-                name: this.userDetail.name,
-                password: password
-              }).subscribe(
-                result => {
-                  console.log(result);
-                }, error => {
-                  console.log(error);
-                }
-              );
+              this.missingIngredient('cur_password');
             }
-
           }else {
-            this.message = 'Confimation password is incorrect';
+            this.userService.updateTeacher({      // update teacher details without passwords (still without subjects)
+              cur_username: user.username,
+              cur_password: user.password,
+              cur_t_id: this.t_id,
+              username: username,
+              name: name,
+              contact: contact,
+              address: address
+            }).subscribe(
+              result => {
+                console.log(result);
+              }, error => {
+                console.log(error);
+              }
+            );
           }
+
         }else {
-          this.message = 'Please provide a none empty password';
+          this.wrongIngredient('contact', 'Invalid contact provided!');
         }
       }else {
-        this.message = 'Please provide name !';
+        this.missingIngredient('contact');
       }
+
     }else {
-      this.message = 'Please provide username !';
+      if (this.isChangePassword) {
+        const password = $('#password').val();
+        const cur_password = $('#cur_password').val();
+
+        if (cur_password !== '') {
+          if (cur_password === user.password) {
+            this.userService.updateUserPassword({      // update user details with password change
+              cur_username: user.username,
+              cur_password: user.password,
+              username: username,
+              name: name,
+              password: password,
+            }).subscribe(
+              result => {
+                console.log(result);
+              }, error => {
+                console.log(error);
+              }
+            );
+          }else {
+            this.wrongIngredient('cur_password', 'Incorrect password provided!');
+          }
+        }else {
+          this.missingIngredient('cur_password');
+        }
+      }else {
+        this.userService.updateUser({      // update user details without password change
+          cur_username: user.username,
+          cur_password: user.password,
+          username: username,
+          name: name,
+        }).subscribe(
+          result => {
+            console.log(result);
+          }, error => {
+            console.log(error);
+          }
+        );
+      }
     }
   }
 
-  validContact(contact) {
-    return true;      // input contact number of the teacher input and validate it
+  missingIngredient(element) {
+    this.message = 'Missing valid input for ' + element;
+    $('input').removeClass('warningFont');
+    $('#' + element).addClass('warningFont');
+    $('#' + element).focus();
   }
 
-  validUsername(username) {
-    return true;      // input username and check if it's used before
+  wrongIngredient(element, msg) {
+    this.message = msg;
+    $('input').removeClass('warningFont');
+    $('#' + element).addClass('warningFont');
+    $('#' + element).focus();
+  }
+
+  validContact(contact) {
+    let number =  contact.trim().split(' ').join('');
+    if (number[0] === '+') {
+      number = number.substr(1);
+    }
+    if (number.match(/^\d+$/)) {
+      if ((number[0] === '0' && number.length === 10) || (number[0] !== '0' && number.length === 9)) {
+        return true;
+      }
+    }else {
+      return false;
+    }
+    console.log(number);
+
+    return false;
+  }
+
+  validUsername() {
+    const username = $('#username').val();
+    if (!this.isNew && (username === this.userService.getCurrentUser().username)) {
+      console.log('check one');
+      this.isValidUsername = true;
+    }
+    this.userService.checkUsername({username})
+      .subscribe(
+      result => {
+        if (result[0].available === 'false') {
+          this.isValidUsername = true;
+        }else {
+          this.isValidUsername = false;
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 }

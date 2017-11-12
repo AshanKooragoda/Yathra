@@ -50,15 +50,43 @@ export class UserService {
   }
 
   addTeacherUser(data) {
-    console.log(data);
     return this.http.post('http://localhost:3000/add_user_teacher', JSON.stringify(data),
       new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
       .map(res => res.json());
   }
 
   addUser(data) {
-    console.log(data);
     return this.http.post('http://localhost:3000/add_user', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  updateUser(data) {
+    return this.http.post('http://localhost:3000/update_user', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  updateTeacher(data) {
+    return this.http.post('http://localhost:3000/update_teacher', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  updateUserPassword(data) {
+    return this.http.post('http://localhost:3000/update_user_password', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  updateTeacherPassword(data) {
+    return this.http.post('http://localhost:3000/update_teacher_password', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  checkUsername(data) {         // check whether given username is already in the database
+    return this.http.post('http://localhost:3000/check_username', JSON.stringify(data),
       new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
       .map(res => res.json());
   }

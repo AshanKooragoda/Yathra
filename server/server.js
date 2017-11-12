@@ -78,6 +78,45 @@ app.post("/add_user", (req, res) => {   //  add an new user
   });
 });
 
+app.post("/update_user", (req, res) => {   //  update user without password
+  UserController.updateUser(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/update_user_password", (req, res) => {   //  update user with password
+  UserController.updateUserPassword(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/update_teacher", (req, res) => {   //  update teacher without password
+  UserController.updateTeacher(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/update_teacher_password", (req, res) => {   //  update teacher with password
+  UserController.updateTeacherPassword(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.post("/check_username", (req, res) => {   //  update teacher with password
+  UserController.checkUsername(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
 
 
 app.listen(3000, () => {

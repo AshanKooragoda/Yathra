@@ -76,7 +76,6 @@ const getUserTeacher = (user) => {       // query a specific user from the datab
 
 const addUserTeacher = (user) => {       // add a user with teacher details filled
   return new Promise((resolve, reject) => {
-    var result = {};
     connection.query("start transaction;",
       (err, res1) => {
         if (err) {
@@ -113,7 +112,7 @@ const addUserTeacher = (user) => {       // add a user with teacher details fill
   });
 };
 
-const addUser = (user) => {       // query a specific user from the database using password and username
+const addUser = (user) => {       // add new user to the database
   return new Promise((resolve, reject) => {
     connection.query("insert into user values(?, ?, ?);", [user.username, user.name, user.password],
       (err, res) => {
@@ -122,6 +121,96 @@ const addUser = (user) => {       // query a specific user from the database usi
         }
         resolve(res);
       })
+  });
+};
+
+const updateUser = (user) => {       // update username and name of a user (not a teacher)
+  return new Promise((resolve, reject) => {
+    connection.query("update user set username=?, name=? where username=? and password=?",
+      [user.username, user.name, user.cur_username, user.cur_password],
+      (err, res) => {
+        if(err){
+          reject(err);
+        }
+        resolve(res);
+      })
+  });
+};
+
+const updateUserPassword = (user) => {       // update username, name and password of a user (not a teacher)
+  return new Promise((resolve, reject) => {
+    connection.query("update user set username=?, name=?, password=? where username=? and password=?",
+      [user.username, user.name, user.password, user.cur_username, user.cur_password],
+      (err, res) => {
+        if(err){
+          reject(err);
+        }
+        resolve(res);
+      })
+  });
+};
+
+const updateTeacher = (user) => {       // update teacher details without password
+  return new Promise((resolve, reject) => {
+    connection.query("start transaction;",
+      (err, res1) => {
+        if (err){
+          reject(err);
+        }
+        connection.query("update user set username=?, name=? where username=? and password=?;",
+          [user.username, user.name, user.cur_username, user.cur_password],
+          (err, res2) => {
+            if (err){
+              reject(err);
+            }
+            connection.query("update teacher set name=?, contact=?, address=? where t_id=?;",
+              [user.name, user.contact, user.address, user.cur_t_id],
+              (err, res3) => {
+                if (err){
+                  reject(err);
+                }
+                connection.query("commit;",
+                  (err, res4) => {
+                    if (err) {
+                      reject(err);
+                    }
+                    resolve([res1, res2, res3, res4]);
+                  });
+              });
+          })
+      });
+  });
+};
+
+const updateTeacherPassword = (user) => {       // update all details of a teacher (include password)
+  return new Promise((resolve, reject) => {
+    connection.query("start transaction;",
+      (err, res1) => {
+        if (err){
+          reject(err);
+        }
+        connection.query("update user set username=?, name=?, password=? where username=? and password=?",
+          [user.username, user.name, user.password, user.cur_username, user.cur_password],
+          (err, res2) => {
+            if (err){
+              reject(err);
+            }
+            connection.query("update teacher set name=?, contact=?, address=? where t_id=?;",
+              [user.name, user.contact, user.address, user.cur_t_id],
+              (err, res3) => {
+                if (err){
+                  reject(err);
+                }
+                connection.query("commit;",
+                  (err, res4) => {
+                    if (err) {
+                      reject(err);
+                    }
+                    resolve([res1, res2, res3, res4]);
+                  });
+              });
+          })
+      });
   });
 };
 
@@ -141,9 +230,21 @@ const nextTeacherId = () => {       // generate next teacher id
   });
 };
 
-
+const checkUsername = (user) => {       // check whether given username exist in the table
+  return new Promise((resolve, reject) => {
+    connection.query("select case when count(username)=1 then 'true' else 'false' end as available from user where username=?",
+      [user.username],
+      (err, res) => {           // return 'true' if already exits, or 'false' otherwise
+        if(err){
+          reject(err);
+        }
+        resolve(res);
+      })
+  });
+};
 
 
 module.exports = {
-  getUser, getUsers, getAdmins, getTeachers, getUserDetail, getUserTeacher, addUserTeacher, addUser
+  getUser, getUsers, getAdmins, getTeachers, getUserDetail, getUserTeacher, addUserTeacher, addUser,
+  updateUser, updateUserPassword, updateTeacher, updateTeacherPassword, checkUsername
 };

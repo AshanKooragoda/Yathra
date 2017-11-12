@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="col-sm-12"  style="padding: 10px;">
     <button class="btn btn-info btn-lg" (click)="goToProfile(userService.getCurrentUser().username)">My Profile</button>
-    <button class="btn btn-success btn-lg" (click)="goToProfile('new_user')">New User</button>
+    <button *ngIf="userService.getCurrentUser().type === 'admin'"
+      class="btn btn-success btn-lg" (click)="goToProfile('new_user')">New User</button>
 
     <p style="margin: 10px 0 0 0;">
       <input type="checkbox" (change)="getUsers()" [(ngModel)]="teacher"><label style="padding: 10px 15px 0 5px;"> Teachers</label>
