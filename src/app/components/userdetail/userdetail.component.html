@@ -22,12 +22,14 @@
       <div class="form-group" *ngIf="!this.isNew">
         <label class="control-label col-sm-3">Current password : </label>
         <div class="col-sm-6">
-          <input type="password" class="form-control" placeholder="enter current password" name="cur_pass" id="cur_password">
+          <input type="password" class="form-control" placeholder="enter current password"
+                 name="cur_pass" id="cur_password" (change)="validPassword()">
         </div>
       </div>
 
       <div *ngIf="!isNew">
-        <p id="password_check"><label style="padding: 10px 15px 0 5px;">Change password</label><input type="checkbox" (change)="updatePassword()"></p>
+        <p id="password_check"><label style="padding: 10px 15px 0 5px;">Change password</label>
+          <input type="checkbox" (change)="updatePassword()"></p>
       </div>
 
       <div *ngIf="isChangePassword">
@@ -45,7 +47,8 @@
         </div>
       </div>
 
-      <p id="teacher_check"><label style="padding: 10px 15px 0 5px;">Register as a teacher</label><input type="checkbox" (change)="specifyTeacher()"></p>
+      <p id="teacher_check"><label style="padding: 10px 15px 0 5px;">Register as a teacher</label>
+        <input type="checkbox" (change)="specifyTeacher()"></p>
 
       <div *ngIf="(this.isTeacher)">
 
@@ -74,7 +77,7 @@
 
       <hr>
       <div class="col-sm-9" style="text-align: right">
-        <button class="btn btn-warning" style="margin: 10px;"> Cancel </button>
+        <button class="btn btn-warning" style="margin: 10px;" (click)="cancel()"> Cancel </button>
         <button class="btn btn-success" style="margin: 10px;" (click)="submitDetails()"> Save </button>
       </div>
     </form>

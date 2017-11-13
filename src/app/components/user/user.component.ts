@@ -69,7 +69,7 @@ export class UserComponent implements OnInit {
         if (users[0].t_id == null) {
           type = 'Admin';
         }
-        this.selectedUser.setUserDetail(users[0].username, null, users[0].name, type, false);
+        this.selectedUser.setUserDetail(users[0].username, users[0].name, type, false);
       },
       error => {
         console.log(error);

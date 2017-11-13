@@ -68,6 +68,7 @@ export class UserService {
   }
 
   updateTeacher(data) {
+    console.log(data);
     return this.http.post('http://localhost:3000/update_teacher', JSON.stringify(data),
       new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
       .map(res => res.json());
@@ -87,6 +88,12 @@ export class UserService {
 
   checkUsername(data) {         // check whether given username is already in the database
     return this.http.post('http://localhost:3000/check_username', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  checkPassword(data) {         // check given password is matching with the given username
+    return this.http.post('http://localhost:3000/check_password', JSON.stringify(data),
       new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
       .map(res => res.json());
   }

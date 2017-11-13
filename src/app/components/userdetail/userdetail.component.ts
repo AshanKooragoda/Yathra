@@ -17,6 +17,8 @@ export class UserdetailComponent implements OnInit {
 
   isChangePassword: boolean;   // useful in update user scenario. bind with change password checkbox
   isValidUsername: boolean;    // check if the username is valid
+  isValidPassword: boolean;    // check if the provided password matching with given password
+  validatedContact: string;       // validated contact
 
   t_id: string;     // assigned only if user is a teacher (isTeacher is true)
 
@@ -32,8 +34,6 @@ export class UserdetailComponent implements OnInit {
     this.userService = user;
 
     this.isChangePassword = false;
-
-    // console.log(this.route.snapshot.params['id']);
   }
 
   ngOnInit() {
@@ -49,6 +49,8 @@ export class UserdetailComponent implements OnInit {
     }else {
       this.message = 'My profile';
       this.isNew = false;
+      this.isValidUsername = true;
+
       $('#teacher_check').hide();
 
       $('#username').val(this.userService.getCurrentUser().username);     // set details of current user to the input fields
@@ -59,6 +61,7 @@ export class UserdetailComponent implements OnInit {
 
         this.userService.queryTeacher({username: this.userService.getCurrentUser().username}).subscribe(
           teachers => {
+            this.t_id = teachers[0].t_id;
             this.t_id = teachers[0].t_id;
             $('#contact').val(teachers[0].contact);
             $('#address').val(teachers[0].address);
@@ -133,11 +136,13 @@ export class UserdetailComponent implements OnInit {
             username: username,
             name: name,
             password: password,
+            key: username[0],
             contact: contact,
             address: address
           }).subscribe(
             result => {
               console.log(result);
+              this.cancel();
             }, error => {
               console.log(error);
             }
@@ -148,14 +153,16 @@ export class UserdetailComponent implements OnInit {
       }else {
         this.missingIngredient('contact');
       }
-    }else {                 // add new user
+    }else {                     // add new user
       this.userService.addUser({
         username: username,
         name: name,
-        password: password
+        password: password,
+        key: username[0]
       }).subscribe(
         result => {
           console.log(result);
+          this.cancel();
         }, error => {
           console.log(error);
         }
@@ -180,20 +187,21 @@ export class UserdetailComponent implements OnInit {
             const cur_password = $('#cur_password').val();
 
             if (cur_password !== '') {
-              if (cur_password === user.password) {
+              if (this.isValidPassword) {
 
                 this.userService.updateTeacherPassword({      // update teacher details with passwords (still without subjects)
                   cur_username: user.username,
-                  cur_password: user.password,
                   cur_t_id: this.t_id,
                   username: username,
                   name: name,
                   password: password,
+                  key: username[0],
                   contact: contact,
                   address: address
                 }).subscribe(
                   result => {
                     console.log(result);
+                    this.cancel();
                   }, error => {
                     console.log(error);
                   }
@@ -207,7 +215,6 @@ export class UserdetailComponent implements OnInit {
           }else {
             this.userService.updateTeacher({      // update teacher details without passwords (still without subjects)
               cur_username: user.username,
-              cur_password: user.password,
               cur_t_id: this.t_id,
               username: username,
               name: name,
@@ -216,6 +223,7 @@ export class UserdetailComponent implements OnInit {
             }).subscribe(
               result => {
                 console.log(result);
+                this.cancel();
               }, error => {
                 console.log(error);
               }
@@ -235,16 +243,17 @@ export class UserdetailComponent implements OnInit {
         const cur_password = $('#cur_password').val();
 
         if (cur_password !== '') {
-          if (cur_password === user.password) {
+          if (this.isValidPassword) {
             this.userService.updateUserPassword({      // update user details with password change
               cur_username: user.username,
-              cur_password: user.password,
               username: username,
               name: name,
               password: password,
+              key: username[0]
             }).subscribe(
               result => {
                 console.log(result);
+                this.cancel();
               }, error => {
                 console.log(error);
               }
@@ -258,12 +267,12 @@ export class UserdetailComponent implements OnInit {
       }else {
         this.userService.updateUser({      // update user details without password change
           cur_username: user.username,
-          cur_password: user.password,
           username: username,
           name: name,
         }).subscribe(
           result => {
             console.log(result);
+            this.cancel();
           }, error => {
             console.log(error);
           }
@@ -286,21 +295,27 @@ export class UserdetailComponent implements OnInit {
     $('#' + element).focus();
   }
 
-  validContact(contact) {
+  validContact(contact) {             // check whether the given input is a contact and format is to correct formats
     let number =  contact.trim().split(' ').join('');
     if (number[0] === '+') {
       number = number.substr(1);
     }
     if (number.match(/^\d+$/)) {
-      if ((number[0] === '0' && number.length === 10) || (number[0] !== '0' && number.length === 9)) {
+      if ((number.substr(0, 2) === '94') && (number.length === 11)) {
+        this.validatedContact = '+94' + number.substr(2, 4) + number.substr(4, 7) + number.substr(7);
         return true;
+      }else if (number[0] === '0' && number.length === 10) {
+        this.validatedContact = '+94' + number.substr(1, 3) + number.substr(3, 6) + number.substr(6);
+        return true;
+      }else if (number[0] !== '0' && number.length === 9) {
+        this.validatedContact = '+94' + number.substr(0, 2) + number.substr(2, 5) + number.substr(5);
+        return true;
+      }else {
+        return false;
       }
     }else {
       return false;
     }
-    console.log(number);
-
-    return false;
   }
 
   validUsername() {
@@ -309,7 +324,7 @@ export class UserdetailComponent implements OnInit {
       console.log('check one');
       this.isValidUsername = true;
     }
-    this.userService.checkUsername({username})
+    this.userService.checkUsername({username: username})
       .subscribe(
       result => {
         if (result[0].available === 'false') {
@@ -322,4 +337,28 @@ export class UserdetailComponent implements OnInit {
       }
     );
   }
+
+  validPassword() {         // check whether given password is the current password of this user
+    const password = $('#cur_password').val();
+    const username = this.userService.getCurrentUser().username;
+
+    this.userService.checkPassword({username: username, password: password, key: username[0]})
+      .subscribe(
+        result => {
+          if (result[0].matching === 'true') {
+            this.isValidPassword = true;
+          }else {
+            this.isValidPassword = false;
+          }
+        }, error => {
+          this.isValidPassword = false;
+          console.log(error);
+        }
+      );
+  }
+
+  cancel () {
+    this.router.navigate(['user']);
+  }
 }
+

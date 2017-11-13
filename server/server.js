@@ -118,6 +118,15 @@ app.post("/check_username", (req, res) => {   //  update teacher with password
   });
 });
 
+app.post("/check_password", (req, res) => {   //  update teacher with password
+  UserController.checkPassword(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+
 
 app.listen(3000, () => {
   console.log("Server is up on 3000");

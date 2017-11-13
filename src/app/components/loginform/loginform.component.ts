@@ -20,7 +20,8 @@ export class LoginformComponent implements OnInit {
   onSubmit(username, password) {
     const data = {
       username: username,
-      password: password
+      password: password,
+      key: username[0]
     };
     this.userService.queryUser(data)
       .subscribe(res => {
@@ -32,7 +33,7 @@ export class LoginformComponent implements OnInit {
           if (res[0].t_id == null) {
             type = 'admin';
           }
-          user.setUserDetail(res[0].username, res[0].password, res[0].name, type, true);
+          user.setUserDetail(res[0].username, res[0].name, type, true);
           this.userService.setCurrentUser(user);
           console.log(this.userService.getCurrentUser());       // just for implementation details
           this.router.navigate(['invoice']);
@@ -41,6 +42,7 @@ export class LoginformComponent implements OnInit {
         console.log(error);
       });
   }
+
 
   ngOnInit() {
   }
