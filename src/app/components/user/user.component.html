@@ -12,8 +12,8 @@
 
   <div class="col-sm-3" style="padding: 0 10px;">
     <div class="list-group">
-      <!--<a class="list-group-item active">Lahiru</a>-->
-      <a class="list-group-item" *ngFor="let user of users" id="{{user.username + '_user'}}" (click)="loadUserDetail(user.username)">{{user.username}}</a>
+      <a class="list-group-item" *ngFor="let user of users" id="{{user.username + '_user'}}"
+         (click)="loadUserDetail(user.username)">{{user.username}}</a>
     </div>
   </div>
   <div class="col-sm-8">
@@ -22,22 +22,22 @@
     </div>
     <br>
 
-    <div class="col-sm-2  user_detail" style="text-align: right">
-      <span>Username :</span>
+    <div class="col-sm-2  user_detail" style="text-align: left">
+      <span>Username</span>
     </div>
     <div class="col-sm-9  user_detail">
       <b>{{selectedUser.username}}</b>
     </div>
     <br>
-    <div class="col-sm-2  user_detail" style="text-align: right">
-      <span>Name :</span>
+    <div class="col-sm-2  user_detail" style="text-align: left">
+      <span>Name</span>
     </div>
     <div class="col-sm-9  user_detail">
       <b>{{selectedUser.name}}</b>
     </div>
     <br>
-    <div class="col-sm-2  user_detail" style="text-align: right">
-      <span>Type :</span>
+    <div class="col-sm-2  user_detail" style="text-align: left">
+      <span>Type</span>
     </div>
     <div class="col-sm-9  user_detail">
       <b>{{selectedUser.type}}</b>

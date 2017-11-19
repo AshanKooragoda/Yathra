@@ -1,10 +1,14 @@
 <div class="container-fluid">
-  <div class="col-sm-12"  style="padding: 10px;">
-    <button class="btn btn-success btn-lg" (click)="newSupplier()">New Supplier</button>
-  </div>
 
   <div class="col-sm-3">
-    <p><b>current suppliers,</b></p>
+    <p><b>Teachers by subject</b></p>
+
+    <div style="margin: 10px 0;">
+      <select id="select_subject" class="form-control" (change)="loadTeacherList()">
+        <option value="All">All</option>
+        <option value="{{sub.name}}" *ngFor="let sub of subjects">{{sub.name}}</option>
+      </select>
+    </div>
 
     <div class="list-group">
       <a class="list-group-item">Lahiru</a>
@@ -15,67 +19,67 @@
       <a class="list-group-item">admin</a>
       <a class="list-group-item">AshanMadu</a>
     </div>
-  </div>
-  <div class="col-sm-8">
-    <div id="detail_label" *ngIf="!editable">
-      <div class="col-sm-2" style="text-align: right">
-        <b>Details,</b>
-      </div>
-      <br>
+</div>
+<div class="col-sm-8">
+<div id="detail_label" *ngIf="!editable">
+<div class="col-sm-2" style="text-align: right">
+<b>Details,</b>
+</div>
+<br>
 
-      <div class="col-sm-2 sup_detail" style="text-align: right">
-        <span>Supplier ID :</span>
-      </div>
-      <div class="col-sm-9 sup_detail">
-        <b>S00045</b>
-      </div>
-      <br>
-      <div class="col-sm-2 sup_detail" style="text-align: right">
-        <span>Name :</span>
-      </div>
-      <div class="col-sm-9 sup_detail">
-        <b>Atlas Book Dealers</b>
-      </div>
-      <br>
-      <div class="col-sm-2 sup_detail" style="text-align: right">
-        <span>Email :</span>
-      </div>
-      <div class="col-sm-9 sup_detail">
-        <b>lahirusampath.15@cse.mrt.ac.lk</b>
-      </div>
-      <br>
-      <div class="col-sm-2 sup_detail" style="text-align: right">
-        <span>Tel :</span>
-      </div>
-      <div class="col-sm-9 sup_detail">
-        <b>+94 71 936 0004</b>
-      </div>
-      <br>
-      <div class="col-sm-2 sup_detail" style="text-align: right">
-        <span>Fax :</span>
-      </div>
-      <div class="col-sm-9 sup_detail">
-        <b>+9434 71 936 04004</b>
-      </div>
-      <div class="col-sm-12" style="text-align: center; padding: 10px;">
-        <button class="btn btn-primary"  (click)="editDetails()">Edit</button>
-        <button class="btn btn-warning" >Drop</button>
-      </div>
+<div class="col-sm-2 sup_detail" style="text-align: right">
+<span>Supplier ID :</span>
+</div>
+<div class="col-sm-9 sup_detail">
+<b>S00045</b>
+</div>
+<br>
+<div class="col-sm-2 sup_detail" style="text-align: right">
+<span>Name :</span>
+</div>
+<div class="col-sm-9 sup_detail">
+<b>Atlas Book Dealers</b>
+</div>
+<br>
+<div class="col-sm-2 sup_detail" style="text-align: right">
+<span>Email :</span>
+</div>
+<div class="col-sm-9 sup_detail">
+<b>lahirusampath.15@cse.mrt.ac.lk</b>
+</div>
+<br>
+<div class="col-sm-2 sup_detail" style="text-align: right">
+<span>Tel :</span>
+</div>
+<div class="col-sm-9 sup_detail">
+<b>+94 71 936 0004</b>
+</div>
+<br>
+<div class="col-sm-2 sup_detail" style="text-align: right">
+<span>Fax :</span>
+</div>
+<div class="col-sm-9 sup_detail">
+<b>+9434 71 936 04004</b>
+</div>
+<div class="col-sm-12" style="text-align: center; padding: 10px;">
+<button class="btn btn-primary"  (click)="editDetails()">Edit</button>
+<button class="btn btn-warning" >Drop</button>
+</div>
 
-    </div>
+</div>
 
-    <div id="detail_text" *ngIf="editable">
-      <div class="col-sm-2" style="text-align: right">
-        <b>Details,</b>
-      </div>
-      <br>
+<div id="detail_text" *ngIf="editable">
+<div class="col-sm-2" style="text-align: right">
+<b>Details,</b>
+</div>
+<br>
 
-      <div class="col-sm-12">
-        <form class="form-horizontal">
-          <div class="form-group">
-            <label class="control-label col-sm-2" style="font-style: normal">Supplier ID :</label>
-            <div class="col-sm-8">
-              <!--<input type="text" class="form-control" placeholder="enter supplier ID" >-->
+<div class="col-sm-12">
+<form class="form-horizontal">
+<div class="form-group">
+<label class="control-label col-sm-2" style="font-style: normal">Supplier ID :</label>
+<div class="col-sm-8">
+ <!--<input type="text" class="form-control" placeholder="enter teacher ID" >-->
               <label class="form-control">I000234</label>
             </div>
           </div>

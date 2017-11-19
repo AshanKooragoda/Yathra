@@ -5,13 +5,13 @@
 
     <form class="form-horizontal">
       <div class="form-group">
-        <label class="control-label col-sm-3" >Username : </label>
+        <label class="control-label col-sm-3" >Username </label>
         <div class="col-sm-6">
           <input type="text" class="form-control" placeholder="username" name="username" id="username" (change)="validUsername()">
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-3">Name : </label>
+        <label class="control-label col-sm-3">Name </label>
         <div class="col-sm-6">
           <input type="text" class="form-control" placeholder="full name" name="name" id="name">
         </div>
@@ -20,7 +20,7 @@
       <p *ngIf="isNew"><b>Password,</b></p>
 
       <div class="form-group" *ngIf="!this.isNew">
-        <label class="control-label col-sm-3">Current password : </label>
+        <label class="control-label col-sm-3">Current password </label>
         <div class="col-sm-6">
           <input type="password" class="form-control" placeholder="enter current password"
                  name="cur_pass" id="cur_password" (change)="validPassword()">
@@ -34,13 +34,13 @@
 
       <div *ngIf="isChangePassword">
         <div class="form-group">
-          <label class="control-label col-sm-3">New password : </label>
+          <label class="control-label col-sm-3">New password </label>
           <div class="col-sm-6">
             <input type="password" class="form-control" placeholder="new password" name="password" id="password">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-3">Conform password : </label>
+          <label class="control-label col-sm-3">Conform password </label>
           <div class="col-sm-6">
             <input type="password" class="form-control" placeholder="confirm password" id="conf_password" name="con_pass" >
           </div>
@@ -55,24 +55,24 @@
         <p><b>Teacher details,</b></p>
 
         <div class="form-group">
-          <label class="control-label col-sm-3">Contact : </label>
+          <label class="control-label col-sm-3">Contact </label>
           <div class="col-sm-6">
             <input type="text" class="form-control" placeholder="contact number" name="contact" id="contact">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-3">Address : </label>
+          <label class="control-label col-sm-3">Address </label>
           <div class="col-sm-6">
             <input type="text" class="form-control" placeholder="address" name="address" id="address">
           </div>
         </div>
-        <div class="form-group">
-          <label class="control-label col-sm-3">Subject :</label>
-          <div class="col-sm-6">
-            <input class="form-control" placeholder="subject of teacher" auto-complete [(ngModel)]="myData"
-                   [source]="mySource" name="subjects"/>
-          </div>
-        </div>
+        <!--<div class="form-group">-->
+          <!--<label class="control-label col-sm-3">Subject </label>-->
+          <!--<div class="col-sm-6">-->
+            <!--<input class="form-control" placeholder="subject of teacher" auto-complete [(ngModel)]="myData"-->
+                   <!--value="fuck" [source]="mySource" name="subjects"/>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
 
       <hr>

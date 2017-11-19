@@ -1,16 +1,27 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var UserController = require('./controllers/user.controller');
+var TeacherController = require('./controllers/teacher.controller');
 
 var app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(cookieParser());
+app.use(session({secret: "Shh, its a secret!"}));
 
-app.get("/", (req, res) => {
-  res.send("Server working....");
+app.get('/', function(req, res){                // for development use. to test cookies
+  if(req.session.page_views){
+    req.session.page_views++;
+    res.send("You visited this page " + req.session.page_views + " times");
+  } else {
+    req.session.page_views = 1;
+    res.send("Welcome to this page for the first time!");
+  }
 });
 
 //------------------------------user entity-----------------------------------------------------------------------------
@@ -126,6 +137,31 @@ app.post("/check_password", (req, res) => {   //  update teacher with password
   });
 });
 
+
+//------------------------------teacher entity--------------------------------------------------------------------------
+app.get("/get_subjects", (req, res) => {       //  get all subjects
+  TeacherController.getSubjects(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
+});
+
+app.get("/get_teachers", (req, res) => {        // get all teachers
+  TeacherController.getTeachers().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err):
+  })
+});
+
+app.get("/get_sub_teachers", (req, res) => {        // get teachers who teaches the given subject
+  TeacherController.getSubTeachers(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
 
 
 app.listen(3000, () => {

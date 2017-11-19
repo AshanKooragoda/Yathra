@@ -142,7 +142,6 @@ export class UserdetailComponent implements OnInit {
           }).subscribe(
             result => {
               console.log(result);
-              this.cancel();
             }, error => {
               console.log(error);
             }

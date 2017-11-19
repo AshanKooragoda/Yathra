@@ -13,20 +13,22 @@ import { UserComponent } from './components/user/user.component';
 import { UserdetailComponent } from './components/userdetail/userdetail.component';
 import { HomeComponent } from './components/home/home.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-import { SupplierComponent } from './components/supplier/supplier.component';
+import { TeacherComponent } from './components/teacher/teacher.component';
 import { StaticsComponent } from './components/statics/statics.component';
 import { InvoicedetailComponent } from './components/invoicedetail/invoicedetail.component';
 import { ExpanceComponent } from './components/expance/expance.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 import {HttpModule} from '@angular/http';
+import {StudentService} from './services/student.service';
+import {TeacherService} from './services/teacher.service';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, children: [
     {path: 'invoice', component: InvoiceComponent},
     {path: 'invoice/:no', component: InvoicedetailComponent},
     {path: 'statistic', component: StaticsComponent},
-    {path: 'supplier', component: SupplierComponent},
+    {path: 'teacher', component: TeacherComponent},
     {path: 'user', component: UserComponent},
     {path: 'user/:id', component: UserdetailComponent},
     {path: 'expense', component: ExpanceComponent}
@@ -47,7 +49,7 @@ const appRoutes: Routes = [
     UserdetailComponent,
     HomeComponent,
     InvoiceComponent,
-    SupplierComponent,
+    TeacherComponent,
     StaticsComponent,
     InvoicedetailComponent,
     ExpanceComponent,
@@ -59,7 +61,7 @@ const appRoutes: Routes = [
     NguiAutoCompleteModule,
     HttpModule
   ],
-  providers: [UserService, AuthenticationGuard],
+  providers: [UserService, AuthenticationGuard, StudentService, TeacherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

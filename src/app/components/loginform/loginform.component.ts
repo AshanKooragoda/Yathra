@@ -15,6 +15,8 @@ export class LoginformComponent implements OnInit {
   constructor(private router: Router, private user: UserService, private route: ActivatedRoute) {
     this.userService = user;
     this.message = 'Welcome Back';
+
+    console.log(document.cookie);
   }
 
   onSubmit(username, password) {
@@ -45,6 +47,7 @@ export class LoginformComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(document.cookie);
   }
 
 }

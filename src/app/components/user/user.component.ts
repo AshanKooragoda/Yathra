@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
     this.admin = true;
     this.userService = user;
     this.selectedUser = new User();
-    console.log(this.userService.getCurrentUser());
+    // console.log(this.userService.getCurrentUser());
   }
 
   ngOnInit() {
@@ -52,6 +52,7 @@ export class UserComponent implements OnInit {
     this.user.queryUsers(type).subscribe(
       users => {
         this.users = users;
+        this.loadUserDetail(this.userService.getCurrentUser().username);
       },
       error => {
         console.log(error);
@@ -64,7 +65,6 @@ export class UserComponent implements OnInit {
     $('#' + username + '_user').addClass('active');
     this.user.queryUserDetail({username: username}).subscribe(
       users => {
-        console.log(this.selectedUser);
         let type = 'Teacher';
         if (users[0].t_id == null) {
           type = 'Admin';
