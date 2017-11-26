@@ -4,22 +4,17 @@ export class Teacher {
   username: string;
   contact: string;
   address: string;
-  subjects: string[];
 
-  constructor() {}
+  subjects: any[];
 
-  // constructor(t_id, username, contact, address) {
-  //   this.t_id = t_id;
-  //   this.username = username;
-  //   this.name = name;
-  //   this.contact = contact;
-  //   this.address = address;
-  // }
+  constructor() {
+    this.subjects = [];
+  }
 
   setDetails(t_id, username, name, contact, address) {
     this.t_id = t_id;
-    this.name = name;
     this.username = username;
+    this.name = name;
     this.contact = contact;
     this.address = address;
   }

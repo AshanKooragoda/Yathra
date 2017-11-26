@@ -11,111 +11,57 @@
     </div>
 
     <div class="list-group">
-      <a class="list-group-item">Lahiru</a>
-      <a class="list-group-item">Sampath</a>
-      <a class="list-group-item">Ashan</a>
-      <a class="list-group-item active">Sampath</a>
-      <a class="list-group-item">Peththaaa</a>
-      <a class="list-group-item">admin</a>
-      <a class="list-group-item">AshanMadu</a>
+      <a class="list-group-item" *ngFor="let teacher of teachers"
+         (click)="loadDetails(teacher.username)" id="{{teacher.username}}"
+         style="cursor: pointer;">{{teacher.fullname}}</a>
     </div>
-</div>
-<div class="col-sm-8">
-<div id="detail_label" *ngIf="!editable">
-<div class="col-sm-2" style="text-align: right">
-<b>Details,</b>
-</div>
-<br>
+  </div>
 
-<div class="col-sm-2 sup_detail" style="text-align: right">
-<span>Supplier ID :</span>
-</div>
-<div class="col-sm-9 sup_detail">
-<b>S00045</b>
-</div>
-<br>
-<div class="col-sm-2 sup_detail" style="text-align: right">
-<span>Name :</span>
-</div>
-<div class="col-sm-9 sup_detail">
-<b>Atlas Book Dealers</b>
-</div>
-<br>
-<div class="col-sm-2 sup_detail" style="text-align: right">
-<span>Email :</span>
-</div>
-<div class="col-sm-9 sup_detail">
-<b>lahirusampath.15@cse.mrt.ac.lk</b>
-</div>
-<br>
-<div class="col-sm-2 sup_detail" style="text-align: right">
-<span>Tel :</span>
-</div>
-<div class="col-sm-9 sup_detail">
-<b>+94 71 936 0004</b>
-</div>
-<br>
-<div class="col-sm-2 sup_detail" style="text-align: right">
-<span>Fax :</span>
-</div>
-<div class="col-sm-9 sup_detail">
-<b>+9434 71 936 04004</b>
-</div>
-<div class="col-sm-12" style="text-align: center; padding: 10px;">
-<button class="btn btn-primary"  (click)="editDetails()">Edit</button>
-<button class="btn btn-warning" >Drop</button>
-</div>
+  <div class="col-sm-9">
+    <div id="detail_label">
+      <div class="col-sm-2 sup_detail">
+        <span>Username</span>
+      </div>
+      <div class="col-sm-9 sup_detail">
+        <b>{{curTeacher.username}}</b>
+      </div>
+      <br>
+      <div class="col-sm-2 sup_detail">
+        <span>Name</span>
+      </div>
+      <div class="col-sm-9 sup_detail">
+        <b>{{curTeacher.name}}</b>
+      </div>
+      <br>
+      <div class="col-sm-2 sup_detail">
+        <span>Contact</span>
+      </div>
+      <div class="col-sm-9 sup_detail">
+        <b>{{curTeacher.contact}}</b>
+      </div>
+      <br>
+      <div class="col-sm-2 sup_detail">
+        <span>Address</span>
+      </div>
+      <div class="col-sm-9 sup_detail">
+        <b>{{curTeacher.address}}</b>
+      </div>
+      <br>
 
-</div>
-
-<div id="detail_text" *ngIf="editable">
-<div class="col-sm-2" style="text-align: right">
-<b>Details,</b>
-</div>
-<br>
-
-<div class="col-sm-12">
-<form class="form-horizontal">
-<div class="form-group">
-<label class="control-label col-sm-2" style="font-style: normal">Supplier ID :</label>
-<div class="col-sm-8">
- <!--<input type="text" class="form-control" placeholder="enter teacher ID" >-->
-              <label class="form-control">I000234</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Name :</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" placeholder="enter name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Email :</label>
-            <div class="col-sm-8">
-              <input type="email" class="form-control" placeholder="enter email">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Tel :</label>
-            <div class="col-sm-8">
-              <input type="tel" class="form-control" placeholder="enter contact">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Fax :</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" placeholder="enter contact">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" class="btn btn-success" (click)="saveDetails()">Save</button>
-              <button type="button" class="btn btn-warning" (click)="saveDetails()">Discard</button>
-            </div>
-          </div>
-        </form>
+      <div class="col-sm-12 sup_detail">
+        <span>Subjects</span>
+      </div>
+      <div class="col-sm-12 sup_detail">
+        <span class="label label-default" *ngFor="let sub of curTeacher.subjects" style="cursor: pointer;"
+              id="{{sub.s_no}}" (click)="subjectDetails(sub)">{{sub.name}}</span>
+        <span class="label label-success" style="cursor: pointer;" (click)="subjectDetails('new')">Add subject</span>
       </div>
 
+      <div class="sup_detail col-sm-8" id="subject_details" *ngIf="showSubDetails">
+        <p><b>{{curSubject.name}}</b></p>
+        <p *ngIf="curSubject.instrument != ''">instrument - {{curSubject.instrument}}</p>
+        <button>Remove from teacher</button>
+      </div>
     </div>
 
     <div class="col-sm-12">

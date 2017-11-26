@@ -14,7 +14,7 @@ const getSubjects = () => {        // query every subject from the database
 
 const getTeachers = () => {        // query every teacher
   return new Promise((resolve, reject) => {
-    connection.query("select username from teacher natural join teacher_user",
+    connection.query("select username, user.name as fullname from teacher_user natural join user",
       (err, res) => {
         if (err) {
           reject(err);
@@ -24,9 +24,11 @@ const getTeachers = () => {        // query every teacher
   });
 };
 
-const getTeachers = () => {        // query every teacher
+const getSubTeachers = (data) => {        // query every teacher who teaches the given subject
   return new Promise((resolve, reject) => {
-    connection.query("select username from teacher natural join teacher_user",
+    connection.query("select distinct username, user.name as fullname " +
+      "from teacher_user natural join user natural join sub_tea join subject using(s_no) where subject.name=?",
+      [data.subject],
       (err, res) => {
         if (err) {
           reject(err);
@@ -36,20 +38,28 @@ const getTeachers = () => {        // query every teacher
   });
 };
 
-const getSubTeachers = (subject) => {        // query every teacher who teachers the given subject
+const getTeacherDetails = (data) => {        // query every teacher who teaches the given subject
   return new Promise((resolve, reject) => {
-    connection.query("select username from teacher natural join teacher_user where subject=?",
-      [subject.name],
-      (err, res) => {
+    connection.query("select username, t_id, user.name as fullname, contact, address from " +
+      "user natural join teacher_user natural join teacher where username=?",
+      [data.username],
+      (err, res1) => {
         if (err) {
           reject(err);
         }
-        resolve(res);
+        connection.query("select s_no, subject.name, instrument from teacher_user natural join sub_tea natural join subject where username=?",
+          [data.username],
+          (err, res2) => {
+            if (err) {
+              reject(err);
+            }
+            resolve([res1, res2]);
+          });                       // not complete ( not fetching data about classes )
       });
   });
 };
 
 
 module.exports = {
-  getSubjects, getTeachers, getSubTeachers
+  getSubjects, getSubTeachers, getTeachers, getTeacherDetails
 };

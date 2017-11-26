@@ -21,3 +21,16 @@ tbody tr {
 #detail_text label {
   font-weight: normal;
 }
+
+.label {
+  font-size: small;
+  font-weight: normal;
+  display: inline-block;
+  margin: 0 0 5px 10px;
+  padding: 7px;
+}
+
+#subject_details {
+  border: solid gray 1px;
+}
+
