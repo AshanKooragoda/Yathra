@@ -57,10 +57,27 @@
         <span class="label label-success" style="cursor: pointer;" (click)="subjectDetails('new')">Add subject</span>
       </div>
 
-      <div class="sup_detail col-sm-8" id="subject_details" *ngIf="showSubDetails">
-        <p><b>{{curSubject.name}}</b></p>
-        <p *ngIf="curSubject.instrument != ''">instrument - {{curSubject.instrument}}</p>
-        <button>Remove from teacher</button>
+      <div class="sup_detail col-sm-5 subject_box" *ngIf="showSubDetails">
+        <p><b>{{subjectBoxMsg}}</b></p>
+        <span>Name - {{curSubject.name}}</span>
+        <span *ngIf="curSubject.instrument != null">Instrument - {{curSubject.instrument}}</span>
+        <p><button class="btn btn-sm btn-danger" (click)="removeSubject()">Remove from teacher</button></p>
+      </div>
+
+      <div class="sup_detail col-sm-5 subject_box" *ngIf="showSubjectAdd">
+        <p><b>{{subjectBoxMsg}}</b></p>
+        <div *ngIf="!addNewSubject">
+          <select class="form-control">
+            <option value="{{sub.name}}" *ngFor="let sub of subjects">{{sub.name}}</option>
+          </select>
+          <p><button class="btn btn-sm btn-success" (click)="selectSubjectToTeacher()">Add to teacher</button></p>
+        </div>
+        <div *ngIf="addNewSubject">
+          <p><label>Name</label><input type="text" class="form-control"></p>
+          <p><label>Instrument</label><input type="text" class="form-control"></p>
+          <p><button class="btn btn-sm btn-success" (click)="newSubjetToTeacher()">Add to teacher</button></p>
+        </div>
+        <input type="checkbox" (change)="addSubject()"><label>Add new subject</label>
       </div>
     </div>
 

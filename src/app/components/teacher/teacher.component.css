@@ -30,7 +30,30 @@ tbody tr {
   padding: 7px;
 }
 
-#subject_details {
-  border: solid gray 1px;
+.subject_box {
+  border: solid white 1px;
+  border-radius: 10px;
+  background-color: lightgray;
+  padding: 10px;
+  color: black;
+  margin-left: 27px;
+}
+
+.subject_box span {
+  margin: 10px 10px 0 0;
+}
+
+.subject_box .btn {
+  padding: 2px 5px;
+  font-size: small;
+  margin: 10px 10px 0 0;
+}
+
+.subject_box label {
+  color: #666;
+}
+
+.subject_box input {
+  margin-right: 10px;
 }
 
