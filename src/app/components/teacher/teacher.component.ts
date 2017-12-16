@@ -55,7 +55,6 @@ export class TeacherComponent implements OnInit {
     this.teacherService.getTeachers({subject: subject}).subscribe(
       teachers => {
         this.teachers = teachers;
-        console.log(this.curTeacher.username);
         if (isUndefined(this.curTeacher.username)) {         // for the initial time
           this.loadDetails(teachers[0].username);
         }
@@ -118,14 +117,56 @@ export class TeacherComponent implements OnInit {
   }
 
   removeSubject() {           // remove selected curSubject from teacher
-    // check whether the subject is used for classes by given teacher
+    console.log(this.curSubject);
+    this.teacherService.removeSubject({t_id: this.curTeacher.t_id, s_no: this.curSubject.s_no}).subscribe(
+      result => {
+        if (result.reply === 'success') {
+          this.loadDetails(this.curTeacher.username);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
-  selectSubjectToTeacher() {    // add selected subject to the teacher
-    // add New Subject to teacher
+  addSubjectToTeacher() {          // add selected subject to the teacher
+    const subject = $('#toadd_subject_list').val();
+    this.teacherService.addSubject({t_id: this.curTeacher.t_id, subject: subject}).subscribe(
+      result => {
+        if (result.reply === 'success') {
+          this.loadDetails(this.curTeacher.username);
+        } else {
+          console.log(result.reply);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   newSubjetToTeacher() {        // register new subject to system and add it to the teacher
-    //
+    const subName = $('#new_sub_name').val();
+    const subInstrument = $('#new_sub_instrument').val();
+    if (subName !== '') {
+      this.teacherService.addNewSubject({t_id: this.curTeacher.t_id, name: subName, instrument: subInstrument}
+      ).subscribe(
+        result => {
+          console.log(result);
+          if (result.reply === 'success') {
+            this.loadDetails(this.curTeacher.username);
+          } else {
+            console.log(result.reply);
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
 }
+
+
+// --------------------------------------implement the class table at the end of the html page-----------------------

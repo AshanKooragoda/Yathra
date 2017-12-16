@@ -6,6 +6,7 @@ var cors = require('cors');
 
 var UserController = require('./controllers/user.controller');
 var TeacherController = require('./controllers/teacher.controller');
+var ClassController = require('./controllers/class.controller');
 
 var app = express();
 
@@ -165,6 +166,49 @@ app.post("/get_sub_teachers", (req, res) => {        // get teachers who teaches
 
 app.post("/get_teacher_details", (req, res) => {        // get details and subjects of a specific teacher to 2d array
   TeacherController.getTeacherDetails(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
+
+app.post("/add_subject", (req, res) => {        // add existing subject to the selected teacher
+  TeacherController.addSubject(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
+
+app.post("/add_new_subject", (req, res) => {        // add new subject and add it to the selected teacher
+  TeacherController.addNewSubject(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
+
+app.post("/remove_subject", (req, res) => {        // remove subject from selected teacher if classes are not registered from that subject
+  TeacherController.removeSubject(req.body).then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
+
+
+//----------------------class entity------------------------------------------------------------------------------------
+
+app.get("/get_teacher_names", (req, res) => {           // get names and t_id of all teachers
+  ClassController.getTeacherNames().then((result) => {
+    res.status(200).send(result);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
+});
+
+app.post("/get_class_list", (req, res) => {        // get list of class details by matching teacher id and day
+  ClassController.getClassList(req.body).then((result) => {
     res.status(200).send(result);
   }).catch((err) => {
     res.status(400).send(err);

@@ -38,7 +38,7 @@ export class LoginformComponent implements OnInit {
           user.setUserDetail(res[0].username, res[0].name, type, true);
           this.userService.setCurrentUser(user);
           console.log(this.userService.getCurrentUser());       // just for implementation details
-          this.router.navigate(['invoice']);
+          this.router.navigate(['class']);
         }
       }, error => {
         console.log(error);

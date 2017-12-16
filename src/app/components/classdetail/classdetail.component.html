@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <p><b>Class Details</b></p>
+  <!--condition | class_on or new class-->
+
+  <div class="col-sm-10" id="detail_div">
+    <form class="form-horizontal" *ngIf="edit_class_detail">
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">Subject </label>
+        <div class="col-sm-4">
+          <select id="select_subject" class="form-control" (change)="loadSubjectList()">
+            <option value="{{sub.s_no}}" *ngFor="let sub of subjects">{{sub.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Teacher </label>
+        <div class="col-sm-4">
+          <select id="select_teacher" class="form-control" (change)="loadTeacherList()">
+            <option value="{{tea.t_id}}" *ngFor="let tea of teachers">{{tea.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Teachers salary </label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Hall </label>
+        <div class="col-sm-4">
+          <select id="select_hall" class="form-control">
+            <option value="{{hall.h_no}}" *ngFor="let hall of halls">{{hall.h_no + ' | ' + hall.description}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Day </label>
+        <div class="col-sm-4">
+          <select id="select_day" class="form-control">
+            <option value="monday">Monday</option>
+            <option value="tueday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Course fee </label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label class="control-label col-sm-2">From </label>
+        <div class="col-sm-3">
+          <input type="time" class="form-control" step="1800">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Till </label>
+        <div class="col-sm-3">
+          <input type="time" class="form-control" step="1800">
+        </div>
+      </div>
+    </form>
+
+    <div class="col-sm-12">
+
+    </div>
+    <hr>
+  </div>
+
+</div>

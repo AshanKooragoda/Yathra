@@ -1,0 +1,55 @@
+<div class="container-fluid">
+
+  <div class="form-group">
+    <label class="control-label">Day : </label>
+    <select id="select_day" class="form-control" (change)="loadClassList()">
+      <option value="All">All</option>
+      <option value="monday">Monday</option>
+      <option value="tuesday">Tuesday</option>
+      <option value="wednesday">Wednesday</option>
+      <option value="thursday">Thursday</option>
+      <option value="friday">Friday</option>
+      <option value="saturday">Saturday</option>
+      <option value="sunday">Sunday</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="control-label">Teacher : </label>
+    <select id="select_teacher" class="form-control" (change)="loadClassList()">
+      <option value="All">All</option>
+      <option value="{{tea.t_id}}" *ngFor="let tea of teachers">{{tea.name}}</option>
+    </select>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Teacher</th>
+        <th>Hall</th>
+        <th>Day</th>
+        <th>From</th>
+        <th>Till</th>
+        <th>Started Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr id="{{class.c_no}}" *ngFor="let class of classes" (click)="goToClass(class)">
+      <td>{{class.subject}}</td>
+      <td>{{class.teacher}}</td>
+      <td>{{class.h_no}}</td>
+      <td>{{class.day}}</td>
+      <td>{{class.start_time}}</td>
+      <td>{{class.end_time}}</td>
+      <td>{{class.start_date}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <hr>
+
+  <div class="col-sm-12"  style="padding: 10px 0;">
+    <button class="btn btn-success btn-primary btn-lg" (click)="goToClass('new_class')"> New Invoice </button>
+  </div>
+
+
+</div>

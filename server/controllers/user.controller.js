@@ -224,7 +224,6 @@ const nextTeacherId = () => {       // generate next teacher id
       if (result.length) {
         resolve(("000" + (parseInt(result[0].t_id)+1)).slice(-4));
       } else {
-        ;
         resolve("C001");
       }
     });

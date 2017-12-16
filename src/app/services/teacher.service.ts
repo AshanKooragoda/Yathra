@@ -30,4 +30,22 @@ export class TeacherService {
       .map(res => res.json());
   }
 
+  addSubject(data) {            // register selected teacher with the selected subject
+    return this.http.post('http://localhost:3000/add_subject', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  addNewSubject(data) {         // register selected teacher with a new subject and register that subject in subject table
+    return this.http.post('http://localhost:3000/add_new_subject', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
+  removeSubject(data) {         // remove selected subject from teacher, no class is started for that subject + teacher
+    return this.http.post('http://localhost:3000/remove_subject', JSON.stringify(data),
+      new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})}))
+      .map(res => res.json());
+  }
+
 }

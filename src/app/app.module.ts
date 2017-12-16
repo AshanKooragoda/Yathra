@@ -12,21 +12,22 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { UserComponent } from './components/user/user.component';
 import { UserdetailComponent } from './components/userdetail/userdetail.component';
 import { HomeComponent } from './components/home/home.component';
-import { InvoiceComponent } from './components/invoice/invoice.component';
+import { ClassComponent } from './components/class/class.component';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import { StaticsComponent } from './components/statics/statics.component';
-import { InvoicedetailComponent } from './components/invoicedetail/invoicedetail.component';
+import { ClassdetailComponent } from './components/classdetail/classdetail.component';
 import { ExpanceComponent } from './components/expance/expance.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 import {HttpModule} from '@angular/http';
 import {StudentService} from './services/student.service';
 import {TeacherService} from './services/teacher.service';
+import {ClassService} from './services/class.service';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent, children: [
-    {path: 'invoice', component: InvoiceComponent},
-    {path: 'invoice/:no', component: InvoicedetailComponent},
+    {path: 'class', component: ClassComponent},
+    {path: 'class/:no', component: ClassdetailComponent},
     {path: 'statistic', component: StaticsComponent},
     {path: 'teacher', component: TeacherComponent},
     {path: 'user', component: UserComponent},
@@ -48,10 +49,10 @@ const appRoutes: Routes = [
     UserComponent,
     UserdetailComponent,
     HomeComponent,
-    InvoiceComponent,
+    ClassComponent,
     TeacherComponent,
     StaticsComponent,
-    InvoicedetailComponent,
+    ClassdetailComponent,
     ExpanceComponent,
   ],
   imports: [
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
     NguiAutoCompleteModule,
     HttpModule
   ],
-  providers: [UserService, AuthenticationGuard, StudentService, TeacherService],
+  providers: [UserService, AuthenticationGuard, StudentService, TeacherService, ClassService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

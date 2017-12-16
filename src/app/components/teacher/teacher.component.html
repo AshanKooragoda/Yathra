@@ -67,14 +67,14 @@
       <div class="sup_detail col-sm-5 subject_box" *ngIf="showSubjectAdd">
         <p><b>{{subjectBoxMsg}}</b></p>
         <div *ngIf="!addNewSubject">
-          <select class="form-control">
+          <select class="form-control" id="toadd_subject_list">
             <option value="{{sub.name}}" *ngFor="let sub of subjects">{{sub.name}}</option>
           </select>
-          <p><button class="btn btn-sm btn-success" (click)="selectSubjectToTeacher()">Add to teacher</button></p>
+          <p><button class="btn btn-sm btn-success" (click)="addSubjectToTeacher()">Add to teacher</button></p>
         </div>
         <div *ngIf="addNewSubject">
-          <p><label>Name</label><input type="text" class="form-control"></p>
-          <p><label>Instrument</label><input type="text" class="form-control"></p>
+          <p><label>Name</label><input type="text" class="form-control" id="new_sub_name"></p>
+          <p><label>Instrument</label><input type="text" class="form-control" id="new_sub_instrument"></p>
           <p><button class="btn btn-sm btn-success" (click)="newSubjetToTeacher()">Add to teacher</button></p>
         </div>
         <input type="checkbox" (change)="addSubject()"><label>Add new subject</label>
