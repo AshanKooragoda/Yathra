@@ -3,12 +3,11 @@
   <!--condition | class_on or new class-->
 
   <div class="col-sm-10" id="detail_div">
-    <form class="form-horizontal" *ngIf="edit_class_detail">
-
+    <form class="form-horizontal">
       <div class="form-group">
         <label class="control-label col-sm-2">Subject </label>
         <div class="col-sm-4">
-          <select id="select_subject" class="form-control" (change)="loadSubjectList()">
+          <select id="select_subject" class="form-control" (change)="loadTeacherList()">
             <option value="{{sub.s_no}}" *ngFor="let sub of subjects">{{sub.name}}</option>
           </select>
         </div>
@@ -16,7 +15,7 @@
       <div class="form-group">
         <label class="control-label col-sm-2">Teacher </label>
         <div class="col-sm-4">
-          <select id="select_teacher" class="form-control" (change)="loadTeacherList()">
+          <select id="select_teacher" class="form-control">
             <option value="{{tea.t_id}}" *ngFor="let tea of teachers">{{tea.name}}</option>
           </select>
         </div>

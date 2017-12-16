@@ -6,7 +6,7 @@
     <div style="margin: 10px 0;">
       <select id="select_subject" class="form-control" (change)="loadTeacherList()">
         <option value="All">All</option>
-        <option value="{{sub.name}}" *ngFor="let sub of subjects">{{sub.name}}</option>
+        <option value="{{sub.s_no}}" *ngFor="let sub of subjects">{{sub.name}}</option>
       </select>
     </div>
 

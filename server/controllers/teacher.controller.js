@@ -27,7 +27,7 @@ const getTeachers = () => {        // query every teacher
 const getSubTeachers = (data) => {        // query every teacher who teaches the given subject
   return new Promise((resolve, reject) => {
     connection.query("select distinct username, user.name as fullname " +
-      "from teacher_user natural join user natural join sub_tea join subject using(s_no) where subject.name=?",
+      "from teacher_user natural join user natural join sub_tea join subject using(s_no) where subject.s_no=?",
       [data.subject],
       (err, res) => {
         if (err) {

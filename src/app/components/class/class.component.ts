@@ -14,7 +14,7 @@ export class ClassComponent implements OnInit {
   classes: any[];           // list of classes for the table
 
 
-  constructor( private router: Router, private classService: ClassService) {
+  constructor(private router: Router, private classService: ClassService) {
 
     // load teacher list array || cannot add more teachers to the system while in this tab. loaded only once.
     this.classService.getTeachers().subscribe(
@@ -33,9 +33,13 @@ export class ClassComponent implements OnInit {
     $('#classTab').addClass('active');
   }
 
-  goToClass() {
-    const c_no = 'I0012';
-    this.router.navigate(['class/' + c_no]);
+  goToClass(classObject) {
+    if (classObject === 'new_class') {
+      this.router.navigate(['class/new_class']);
+    }else {
+      this.classService.curClass = classObject;
+      this.router.navigate(['class/' + classObject.c_no]);
+    }
   }
 
   loadClassList() {

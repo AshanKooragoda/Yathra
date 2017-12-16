@@ -14,7 +14,7 @@ export class TeacherService {
     return this.http.get('http://localhost:3000/get_subjects').map(res => res.json());
   }
 
-  getTeachers(data) {       // get  teachers according to given subject name
+  getTeachers(data) {       // get  teachers according to given subject no
     if (data.subject === 'All') {
       return this.http.get('http://localhost:3000/get_all_teachers').map(res => res.json());
     }else {

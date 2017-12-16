@@ -14,8 +14,9 @@ const getTeacherNames = () => {        // get names and t_id of all teachers
 
 const getClassList = (data) => {        // get names and t_id of all teachers
   return new Promise((resolve, reject) => {
-    var q = "select c_no, start_date, day, start_time, end_time, subject.name as subject, user.name as teacher, h_no from " +
-      "subject join( class_sub join ( class_hall join ( class join ( teach join ( teacher join ( user join teacher_user using(username)" +
+    var q = "select c_no, start_date, day, start_time, end_time, subject.name as subject, user.name as teacher, h_no, " +
+      "teach.fee as tea_salary, class.fee as class_fee, s_no, t_id from " +
+      "subject join( class_sub join ( class_hall join ( class join ( teach join ( teacher join ( user join teacher_user using(username) " +
       ") using(t_id)) using(t_id) ) using(c_no) ) using(c_no) ) using(c_no) ) using(s_no)";
     if (data.t_id === 'All' && data.day === 'All') {
       connection.query( q,
